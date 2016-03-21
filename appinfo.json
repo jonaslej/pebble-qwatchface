@@ -2,10 +2,14 @@
   "uuid": "cbdcfe9a-9810-44c1-bf3b-8f358ac8e090",
   "shortName": "qwatchface",
   "longName": "qwatchface",
-  "companyName": "MakeAwesomeHappen",
+  "companyName": "Jonapps",
   "versionLabel": "1.0",
   "sdkVersion": "3",
-  "targetPlatforms": ["aplite", "basalt", "chalk"],
+  "targetPlatforms": [
+    "aplite",
+    "basalt",
+    "chalk"
+  ],
   "watchapp": {
     "watchface": true
   },
@@ -13,6 +17,13 @@
     "dummy": 0
   },
   "resources": {
-    "media": []
+    "media": [
+      {
+        "type": "font",
+        "name": "RobotoLight_48",
+        "file": "fonts/Roboto-Light.ttf",
+        "compatibility": "2.7"
+      }
+    ]
   }
 }
