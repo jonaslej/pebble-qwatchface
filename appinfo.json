@@ -20,8 +20,14 @@
     "media": [
       {
         "type": "font",
-        "name": "RobotoLight_48",
+        "name": "ROBOTOLIGHT_48",
         "file": "fonts/Roboto-Light.ttf",
+        "compatibility": "2.7"
+      },
+      {
+        "type": "font",
+        "name": "WEATHERFONT_20",
+        "file": "fonts/weathericons-regular-webfont.ttf",
         "compatibility": "2.7"
       }
     ]
