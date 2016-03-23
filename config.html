@@ -4,15 +4,42 @@
   <title>Q-Watchface Configuration</title>
   <link rel='stylesheet' type='text/css' href='css/slate.min.css'>
   <script src='js/slate.min.js'></script>
+  <script src='js/config.js'></script>
 </head>
 <body>
-  <div class="item-container"><h1>Q-Watchface Configuration</h1></div>
+  <div class="item-container"><h1 class="title">Q-Watchface</h1></div>
   <div class="item-container">
     <div class="item-container-header">Appearance</div>
     <div class="item-container-content">
       <label class="item">
         Background color
-        <input type="text" class="item-color item-color-normal" name="bg-color" value="#000000" />
+        <input type="text" class="item-color item-color-normal" name="bg-color" id="bg-color" value="#000000" />
+      </label>
+      <label class="item">
+        Time color
+        <input type="text" class="item-color item-color-normal" name="tm-color" id="tm-color" value="#000000" />
+      </label>
+      <label class="item">
+        Date color
+        <input type="text" class="item-color item-color-normal" name="dt-color" id="dt-color" value="#000000" />
+      </label>
+      <label class="item">
+        Weekday color
+        <input type="text" class="item-color item-color-normal" name="wd-color" id="wd-color" value="#000000" />
+      </label>
+      <label class="item">
+        Weather conditions color
+        <input type="text" class="item-color item-color-normal" name="wc-color" id="wc-color" value="#000000" />
+      </label>
+      <label class="item">
+        Temperature color
+        <input type="text" class="item-color item-color-normal" name="tp-color" id="tp-color" value="#000000" />
+      </label>
+    </div>
+  </div>
+  <div class="item-container">
+    <div class="button-container">
+      <input type="button" class="item-button" value="SAVE" id="submit"/>
     </div>
   </div>
 </body>
