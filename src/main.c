@@ -53,6 +53,32 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
     store_weather_values(temperature, conditions);
     APP_LOG(APP_LOG_LEVEL_INFO, "Callback contained weather info.");
   }
+
+  Tuple *bgcolor = dict_find(iterator, KEY_BG_COLOR);
+  if(bgcolor) {
+    persist_write_int(KEY_BG_COLOR, bgcolor->value->int32);
+  }
+  Tuple *tmcolor = dict_find(iterator, KEY_TM_COLOR);
+  if(tmcolor) {
+    persist_write_int(KEY_TM_COLOR, tmcolor->value->int32);
+  }
+  Tuple *dtcolor = dict_find(iterator, KEY_DT_COLOR);
+  if(dtcolor) {
+    persist_write_int(KEY_DT_COLOR, dtcolor->value->int32);
+  }
+  Tuple *wdcolor = dict_find(iterator, KEY_WD_COLOR);
+  if(wdcolor) {
+    persist_write_int(KEY_WD_COLOR, wdcolor->value->int32);
+  }
+  Tuple *wccolor = dict_find(iterator, KEY_WC_COLOR);
+  if(wccolor) {
+    persist_write_int(KEY_WC_COLOR, wccolor->value->int32);
+  }
+  Tuple *tpcolor = dict_find(iterator, KEY_TP_COLOR);
+  if(tpcolor) {
+    persist_write_int(KEY_TP_COLOR, tpcolor->value->int32);
+  }
+  set_colors(s_main_window);
 }
 
 static void inbox_dropped_callback(AppMessageResult reason, void *context) {
@@ -68,11 +94,13 @@ static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
 }
 
 static void main_window_load(Window *window) {
+  load_fonts();
   create_text_layers(window);
 }
 
 static void main_window_unload(Window *window) {
   destroy_text_layers();
+  unload_fonts();
 }
 
 static void migrate_storage_data(int current_version) {

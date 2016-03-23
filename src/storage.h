@@ -10,5 +10,12 @@
 #define PERSIST_W_CELC 3  // Use celcius
 #define PERSIST_W_UPDATE 4 // Latest update of the weather
 
+#define KEY_BG_COLOR 5
+#define KEY_TM_COLOR 6
+#define KEY_DT_COLOR 7
+#define KEY_WD_COLOR 8
+#define KEY_WC_COLOR 9
+#define KEY_TP_COLOR 10
+
 #define PERSIST_MAX_VALUE 4
 #endif

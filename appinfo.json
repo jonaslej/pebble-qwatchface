@@ -17,7 +17,15 @@
   "appKeys": {
     "AppKeyJSReady": 0,
     "KEY_TEMPERATURE": 1,
-    "KEY_CONDITIONS": 2
+    "KEY_CONDITIONS": 2,
+    "KEY_CELCIUS": 3,
+    "KEY_UPDATE_TIME": 4,
+    "KEY_BG_COLOR": 5,
+    "KEY_TM_COLOR": 6,
+    "KEY_DT_COLOR": 7,
+    "KEY_WD_COLOR": 8,
+    "KEY_WC_COLOR": 9,
+    "KEY_TP_COLOR": 10
   },
   "resources": {
     "media": [

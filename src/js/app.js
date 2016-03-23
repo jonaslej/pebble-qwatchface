@@ -97,3 +97,26 @@ Pebble.addEventListener('appmessage',
     getWeather();
   }
 );
+
+Pebble.addEventListener('showConfiguration', function() {
+  var url = 'http://jonaslej.github.io/pebble-qwatchface/config.html';
+  Pebble.openURL(url);
+});
+
+Pebble.addEventListener('webviewclosed', function(e) {
+  // Decode the user's preferences
+  var configData = JSON.parse(decodeURIComponent(e.response));
+  var dict = {
+    "KEY_BG_COLOR": configData.bgcolor,
+    "KEY_TM_COLOR": configData.tmcolor,
+    "KEY_DT_COLOR": configData.dtcolor,
+    "KEY_WD_COLOR": configData.wdcolor,
+    "KEY_WC_COLOR": configData.wccolor,
+    "KEY_TP_COLOR": configData.tpcolor
+  };
+  Pebble.sendAppMessage(dict, function() {
+    console.log('Config data sent successfully!');
+  }, function(e) {
+    console.log('Error sending config data!');
+  });
+});
