@@ -1,6 +1,7 @@
 #include <pebble.h>
 #include "weather.h"
 #include "layers.h"
+#include "storage.h"
 #define KEY_TEMPERATURE 1
 #define KEY_CONDITIONS 2
 #define AppKeyJSReady 0
@@ -25,19 +26,8 @@ static void bluetooth_callback(bool connected) {
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   update_time();
   // Get weather update every 30 minutes
-  if(tick_time->tm_min % 30 == 0) {
-    // Begin dictionary
-    DictionaryIterator *iter;
-    app_message_outbox_begin(&iter);
-
-    // Add a key-value pair
-    dict_write_uint8(iter, 0, 0);
-    APP_LOG(APP_LOG_LEVEL_INFO, "Outbox send ??");
-    // Send the message!
-    if(s_js_ready) {
-      app_message_outbox_send();
-      APP_LOG(APP_LOG_LEVEL_INFO, "Outbox send ??");
-    }
+  if(tick_time->tm_min % 30 == 0 && s_js_ready) {
+    update_weather();
   }
 }
 
@@ -48,6 +38,7 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
     // PebbleKit JS is ready! Safe to send messages
     s_js_ready = true;
     APP_LOG(APP_LOG_LEVEL_INFO, "Pebble-JS is ready");
+    show_weather_values(s_js_ready);
   }
 
   // Read tuples for data
@@ -58,7 +49,9 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
   if(temp_tuple && conditions_tuple) {
     int temperature = (int)temp_tuple->value->int32;
     int conditions = (int)conditions_tuple->value->int32;
-    update_weather(temperature, conditions);
+    update_weather_values(temperature, conditions);
+    store_weather_values(temperature, conditions);
+    APP_LOG(APP_LOG_LEVEL_INFO, "Callback contained weather info.");
   }
 }
 
@@ -82,6 +75,21 @@ static void main_window_unload(Window *window) {
   destroy_text_layers();
 }
 
+static void migrate_storage_data(int current_version) {
+  switch(current_version) {
+    case 0:
+      // No persistent storage existed
+      break;
+    default:
+      // Unknown version, clear persistent data
+      APP_LOG(APP_LOG_LEVEL_INFO, "Unknown storage data version, clear all persistent data");
+      for(int i = 0; i <= PERSIST_MAX_VALUE; i++) {
+        persist_delete(i);
+      }
+      break;
+  }
+  persist_write_int(PERSIST_VERSION_KEY, PERSIST_VERSION);
+}
 
 static void init() {
   setlocale(LC_TIME, "");
@@ -96,6 +104,19 @@ static void init() {
 
   // Show the Window on the watch, with animated=true
   window_stack_push(s_main_window, true);
+
+  // Verify persistent storage
+  int persist_version = 0;
+  bool persist_uptodate = false;
+  if(persist_exists(PERSIST_VERSION_KEY)) {
+    persist_version = persist_read_int(PERSIST_VERSION_KEY);
+    if(persist_version == PERSIST_VERSION) {
+      persist_uptodate = true;
+    }
+  }
+  if(!persist_uptodate) {
+    migrate_storage_data(persist_version);
+  }
 
   // Make sure the time is displayed from the start
   update_time();
@@ -123,6 +144,8 @@ static void init() {
   // Ensure battery level is displayed from the start
   // This will also update the icon for the Bluetooth connection
   battery_callback(battery_state_service_peek());
+
+  show_weather_values(false);
 }
 
 static void deinit() {

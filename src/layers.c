@@ -5,13 +5,20 @@ static TextLayer *s_time_layer, *s_weather_layer, *s_temp_layer, *s_ampm_layer,
                   *s_icon_layer, *s_date_layer, *s_day_layer;
 static GFont s_time_font, s_weather_font, s_temperature_font, s_ampm_font,
                   s_icon_font, s_date_font;
+static char time_text[8];
+static char temp_text[8];
+static char cond_text[4];
+static char date_text[12];
+static char wday_text[12];
 
 void update_temperature_text(char *text) {
-  text_layer_set_text(s_temp_layer, text);
+  strcpy(temp_text, text);
+  text_layer_set_text(s_temp_layer, temp_text);
 }
 
 void update_conditions_text(char *text) {
-  text_layer_set_text(s_weather_layer, text);
+  strcpy(cond_text, text);
+  text_layer_set_text(s_weather_layer, cond_text);
 }
 
 void update_icons(bool battery_charging, int battery_level, bool bt_connected) {
@@ -85,13 +92,13 @@ void update_time() {
 
 void init_text_layer(TextLayer* v_text_layer,
       GColor v_background, GColor v_text_color,
-      GTextAlignment v_text_alignment, GFont* v_font, char * text) {
+      GTextAlignment v_text_alignment, GFont* v_font) {
   //Set the colors
   text_layer_set_background_color(v_text_layer, v_background);
   text_layer_set_text_color(v_text_layer, v_text_color);
 
   //Set the text and textproperties
-  text_layer_set_text(v_text_layer, text);
+  //text_layer_set_text(v_text_layer, text);
   text_layer_set_text_alignment(v_text_layer, v_text_alignment);
 
   // Apply font to TextLayer
@@ -117,22 +124,22 @@ void create_text_layers(Window *window) {
 
   // Create TextLayers
   s_time_layer = text_layer_create(GRect(0, center - 30, bounds.size.w - 30, 50));
-  init_text_layer(s_time_layer, GColorClear, GColorYellow, GTextAlignmentRight, &s_time_font, "00:00");
+  init_text_layer(s_time_layer, GColorClear, GColorYellow, GTextAlignmentRight, &s_time_font);
   GSize textsize = text_layer_get_content_size(s_time_layer);
   APP_LOG(APP_LOG_LEVEL_INFO, "Time size: W = %d, H = %d", textsize.w, textsize.h);
   s_weather_layer = text_layer_create(GRect(0, PBL_IF_ROUND_ELSE(8, 2), bounds.size.w, 30));
-  init_text_layer(s_weather_layer, GColorClear, GColorWhite, GTextAlignmentCenter, &s_weather_font, "\uf00d");
+  init_text_layer(s_weather_layer, GColorClear, GColorWhite, GTextAlignmentCenter, &s_weather_font);
   s_icon_layer = text_layer_create(GRect(0, PBL_IF_ROUND_ELSE(8, 2), bounds.size.w, 30));
-  init_text_layer(s_icon_layer, GColorClear, GColorWhite, GTextAlignmentCenter, &s_icon_font, "\ue803   \ue900");
+  init_text_layer(s_icon_layer, GColorClear, GColorWhite, GTextAlignmentCenter, &s_icon_font);
   APP_LOG(APP_LOG_LEVEL_INFO, "sizeof stringbuffer: %d", sizeof("\ue803   \ue900"));
   s_temp_layer = text_layer_create(GRect(bounds.size.w - 28, center - 4, 30, 25));
-  init_text_layer(s_temp_layer, GColorClear, GColorWhite, GTextAlignmentLeft, &s_temperature_font, "00°");
+  init_text_layer(s_temp_layer, GColorClear, GColorWhite, GTextAlignmentLeft, &s_temperature_font);
   s_ampm_layer = text_layer_create(GRect(bounds.size.w - 28, center - 24, 30, 25));
-  init_text_layer(s_ampm_layer, GColorClear, GColorYellow, GTextAlignmentLeft, &s_ampm_font, "am");
+  init_text_layer(s_ampm_layer, GColorClear, GColorYellow, GTextAlignmentLeft, &s_ampm_font);
   s_date_layer = text_layer_create(GRect(0, bounds.size.h - 40, bounds.size.w, 30));
-  init_text_layer(s_date_layer, GColorClear, GColorWhite, GTextAlignmentCenter, &s_date_font, "Mnt 00");
+  init_text_layer(s_date_layer, GColorClear, GColorWhite, GTextAlignmentCenter, &s_date_font);
   s_day_layer = text_layer_create(GRect(0, bounds.size.h - 55, bounds.size.w, 30));
-  init_text_layer(s_day_layer, GColorClear, GColorGreen, GTextAlignmentCenter, &s_ampm_font, "Weekday");
+  init_text_layer(s_day_layer, GColorClear, GColorGreen, GTextAlignmentCenter, &s_ampm_font);
 
   // Add layers as a child layer to the Window's root layer
   layer_add_child(window_layer, text_layer_get_layer(s_weather_layer));

@@ -10,24 +10,24 @@ var xhrRequest = function (url, type, callback) {
 };
 
 var owm_conditions = {
-  "01d" : 0, //clear sky - day
-  "02d" : 1, //few clouds - day
-  "03d" : 2, //scattered clouds - day
-  "04d" : 3, //broken clouds - day
-  "09d" : 3, //shower rain - day
-  "10d" : 4, //rain - day
-  "11d" : 5, //thunderstorm - day
-  "13d" : 6, //snow - day
-  "50d" : 7, //mist - day
-  "01n" : 8, //clear sky - night
-  "02n" : 9, //few clouds - night
-  "03n" : 10, //scattered clouds - night
-  "04n" : 11, //broken clouds - night
-  "09n" : 12, //shower rain - night
-  "10n" : 13, //rain - night
-  "11n" : 14, //thunderstom - night
-  "13n" : 15, //snow - night
-  "50n" : 16  //thunderstom - night
+  "01d" : 1, //clear sky - day
+  "02d" : 2, //few clouds - day
+  "03d" : 3, //scattered clouds - day
+  "04d" : 4, //broken clouds - day
+  "09d" : 5, //shower rain - day
+  "10d" : 6, //rain - day
+  "11d" : 7, //thunderstorm - day
+  "13d" : 7, //snow - day
+  "50d" : 8, //mist - day
+  "01n" : 9, //clear sky - night
+  "02n" : 10, //few clouds - night
+  "03n" : 11, //scattered clouds - night
+  "04n" : 12, //broken clouds - night
+  "09n" : 13, //shower rain - night
+  "10n" : 14, //rain - night
+  "11n" : 15, //thunderstom - night
+  "13n" : 16, //snow - night
+  "50n" : 17  //thunderstom - night
 }
 
 function locationSuccess(pos) {
@@ -88,13 +88,12 @@ Pebble.addEventListener('ready', function() {
   // PebbleKit JS is ready!
   console.log('PebbleKit JS ready!');
   Pebble.sendAppMessage({'AppKeyJSReady': 1});
-  getWeather();
 });
 
 // Listen for when an AppMessage is received
 Pebble.addEventListener('appmessage',
   function(e) {
-    console.log("AppMessage received!");
+    console.log("AppMessage received! Updating Weather");
     getWeather();
   }
 );
