@@ -84,12 +84,13 @@ static void update_time() {
   // Display date on the TextLayer
   text_layer_set_text(s_date_layer, s_date_buffer);
 
-  static char s_day_buffer[8];
+  static char s_day_buffer[16];
   // Write date into buffer
   strftime(s_day_buffer, sizeof(s_day_buffer), "%A", tick_time);
 
   // Display date on the TextLayer
   text_layer_set_text(s_day_layer, s_day_buffer);
+  APP_LOG(APP_LOG_LEVEL_INFO, "Updated time and date: %s %s, %s %s", s_timebuffer, s_ampmbuffer, s_day_buffer, s_date_buffer);
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
@@ -231,6 +232,7 @@ static void main_window_unload(Window *window) {
 
 
 static void init() {
+  setlocale(LC_TIME, "");
   // Create main Window element and assign to pointer
   s_main_window = window_create();
 
