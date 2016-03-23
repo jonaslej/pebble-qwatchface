@@ -25,10 +25,13 @@ $().ready(function(){
     return JSON.stringify(config);
   }
 
-  var loadConfig = function () {
+  var loadConfig = function() {
     for(item in localStorage) {
       if($('#' + item)[0]) {
         $('#' + item)[0].value = localStorage[item];
+        if(item.indexOf('color') != -1) {
+          $('#' + item).parent().find('.item-styled-color .value').css("background", localStorage[item]);
+        }
       }
     }
   }
