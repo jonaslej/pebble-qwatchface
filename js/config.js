@@ -26,9 +26,12 @@ $().ready(function(){
   }
 
   var loadConfig = function () {
+    console.log('Loading local storage');
     for(item in localStorage) {
-      if($('#' + item)) {
-        $('#' + item).val(localStorage[item]);
+      if($('#' + item)[0]) {
+        console.log('"'+item+'" "'+localStorage[item]+'"');
+        $('#' + item)[0].value = localStorage[item];
+        console.log('"'+$('#' + item)+'" "'+$('#' + item).val()+'"');
       }
     }
   }
