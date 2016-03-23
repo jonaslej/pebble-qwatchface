@@ -9,25 +9,25 @@ var xhrRequest = function (url, type, callback) {
   xhr.send();
 };
 
-var conditionTable = {
-  "01d" : "\uf00d", //clear sky
-  "01n" : "\uf02e",
-  "02d" : "\uf002", //few clouds
-  "02n" : "\uf086",
-  "03d" : "\uf013", //scattered clouds
-  "03n" : "\uf013",
-  "04d" : "\uf013", //broken clouds
-  "04n" : "\uf013",
-  "09d" : "\uf009", //shower rain
-  "09n" : "\uf029",
-  "10d" : "\uf008", //rain
-  "10n" : "\uf028",
-  "11d" : "\uf010", //thunderstorm
-  "11n" : "\uf02d",
-  "13d" : "\uf00a", //snow
-  "13n" : "\uf02a",
-  "50d" : "\uf003", //mist
-  "50n" : "\uf04a"
+var owm_conditions = {
+  "01d" : 0, //clear sky - day
+  "02d" : 1, //few clouds - day
+  "03d" : 2, //scattered clouds - day
+  "04d" : 3, //broken clouds - day
+  "09d" : 3, //shower rain - day
+  "10d" : 4, //rain - day
+  "11d" : 5, //thunderstorm - day
+  "13d" : 6, //snow - day
+  "50d" : 7, //mist - day
+  "01n" : 8, //clear sky - night
+  "02n" : 9, //few clouds - night
+  "03n" : 10, //scattered clouds - night
+  "04n" : 11, //broken clouds - night
+  "09n" : 12, //shower rain - night
+  "10n" : 13, //rain - night
+  "11n" : 14, //thunderstom - night
+  "13n" : 15, //snow - night
+  "50n" : 16  //thunderstom - night
 }
 
 function locationSuccess(pos) {
@@ -50,7 +50,7 @@ function locationSuccess(pos) {
       var conditions = json.weather[0].main;
       console.log("Conditions are " + conditions);
 
-      conditions = conditionTable[json.weather[0].icon];
+      conditions = owm_conditions[json.weather[0].icon];
 
       // Assemble dictionary using our keys
       var dictionary = {
