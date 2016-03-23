@@ -1,8 +1,5 @@
-(function(){
-  var submitButton = $("#submit");
-
-  // Add a 'click' listener
-  submitButton.on('click', function(e) {
+$().ready(function(){
+  $('#submit').click(function() {
     var return_to = getQueryParam('return_to', 'pebblejs://close#');
     // Encode and send the data when the page closes
     document.location = return_to + encodeURIComponent(getConfig());
@@ -11,12 +8,12 @@
   var getConfig = function() {
     // get colors
     var config = {
-      'bgcolor' = $('#bg-color').val(),
-      'tmcolor' = $('#tm-color').val(),
-      'dtcolor' = $('#dt-color').val(),
-      'wdcolor' = $('#wd-color').val(),
-      'wccolor' = $('#wc-color').val(),
-      'tpcolor' = $('#tp-color').val(),
+      'bgcolor' : $('#bg-color').val(),
+      'tmcolor' : $('#tm-color').val(),
+      'dtcolor' : $('#dt-color').val(),
+      'wdcolor' : $('#wd-color').val(),
+      'wccolor' : $('#wc-color').val(),
+      'tpcolor' : $('#tp-color').val(),
     };
 
     for(item in config) {
