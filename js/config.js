@@ -8,12 +8,12 @@ $().ready(function(){
   var getConfig = function() {
     // get colors
     var config = {
-      'bgcolor' : $('#bg-color').val(),
-      'tmcolor' : $('#tm-color').val(),
-      'dtcolor' : $('#dt-color').val(),
-      'wdcolor' : $('#wd-color').val(),
-      'wccolor' : $('#wc-color').val(),
-      'tpcolor' : $('#tp-color').val(),
+      'bgcolor' : $('#bgcolor').val(),
+      'tmcolor' : $('#tmcolor').val(),
+      'dtcolor' : $('#dtcolor').val(),
+      'wdcolor' : $('#wdcolor').val(),
+      'wccolor' : $('#wccolor').val(),
+      'tpcolor' : $('#tpcolor').val(),
     };
 
     for(item in config) {
@@ -27,8 +27,9 @@ $().ready(function(){
 
   var loadConfig = function () {
     for(item in localStorage) {
-      console.log("Loaded from localStorage : " + item + ":" + localStorage[item]);
-//      if($('#' + item))
+      if($('#' + item)) {
+        $('#' + item).val(localStorage[item]);
+      }
     }
   }
 
@@ -44,4 +45,6 @@ $().ready(function(){
     }
     return defaultValue || false;
   }
+
+  loadConfig();
 });
