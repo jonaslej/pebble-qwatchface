@@ -78,6 +78,10 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
   if(tpcolor) {
     persist_write_int(KEY_TP_COLOR, tpcolor->value->int32);
   }
+  Tuple *degcelc = dict_find(iterator, PERSIST_W_CELC);
+  if(degcelc) {
+    persist_write_bool(PERSIST_W_CELC, (bool)degcelc->value->int8);
+  }
   set_colors(s_main_window);
 }
 

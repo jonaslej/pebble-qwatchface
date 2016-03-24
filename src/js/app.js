@@ -29,11 +29,10 @@ var owm_conditions = {
   "13n" : 16, //snow - night
   "50n" : 17  //thunderstom - night
 }
-
-function locationSuccess(pos) {
-  // Construct URL
+function requestWeather(latitude, longitude)
+{
   var url = "http://api.openweathermap.org/data/2.5/weather?lat=" +
-      pos.coords.latitude + "&lon=" + pos.coords.longitude + '&appid=' + myAPIKey;
+      latitude + "&lon=" + longitude + '&appid=' + myAPIKey;
 
   // Send request to OpenWeatherMap
   xhrRequest(url, 'GET',
@@ -43,7 +42,7 @@ function locationSuccess(pos) {
       console.log(responseText)
 
       // Temperature in Kelvin requires adjustment
-      var temperature = Math.round(json.main.temp - 273.15);
+      var temperature = ((localStorage.degreesCelcius === 'true') ? Math.round(json.main.temp - 273.15) : Math.round(json.main.temp * 1.8 - 459.67));
       console.log("Temperature is " + temperature);
 
       // Conditions
@@ -70,6 +69,11 @@ function locationSuccess(pos) {
     }
   );
 }
+function locationSuccess(pos) {
+  localStorage.latitude = pos.coords.latitude;
+  localStorage.longitude = pos.coords.longitude;
+  requestWeather(localStorage.latitude, localStorage.longitude);
+}
 
 function locationError(err) {
   console.log("Error requesting location!");
@@ -94,6 +98,11 @@ Pebble.addEventListener('ready', function() {
 Pebble.addEventListener('appmessage',
   function(e) {
     console.log("AppMessage received! Updating Weather");
+    var dict = e.payload();
+    if(dict['KEY_CELCIUS']) {
+      localStorage.degreesCelcius = Boolean(dict['KEY_CELCIUS']);
+      console.log(localStorage.degreesCelcius);
+    }
     getWeather();
   }
 );
@@ -106,17 +115,27 @@ Pebble.addEventListener('showConfiguration', function() {
 Pebble.addEventListener('webviewclosed', function(e) {
   // Decode the user's preferences
   var configData = JSON.parse(decodeURIComponent(e.response));
+  console.log("Send configData: " + JSON.stringify(decodeURIComponent(e.response)));
   var dict = {
     "KEY_BG_COLOR": parseInt(configData.bgcolor, 16),
     "KEY_TM_COLOR": parseInt(configData.tmcolor, 16),
     "KEY_DT_COLOR": parseInt(configData.dtcolor, 16),
     "KEY_WD_COLOR": parseInt(configData.wdcolor, 16),
     "KEY_WC_COLOR": parseInt(configData.wccolor, 16),
-    "KEY_TP_COLOR": parseInt(configData.tpcolor, 16)
+    "KEY_TP_COLOR": parseInt(configData.tpcolor, 16),
+    "KEY_CELCIUS": configData.degcelc
   };
   Pebble.sendAppMessage(dict, function() {
     console.log('Config data sent successfully!');
   }, function(e) {
     console.log('Error sending config data!');
   });
+  if(Boolean(configData.degcelc) != localStorage.degreesCelcius) {
+    localStorage.degreesCelcius = Boolean(configData.degcelc);
+    if(localStorage.latitude && localStorage.longitude) {
+      requestWeather(localStorage.latitude, localStorage.longitude);
+    } else {
+      getWeather();
+    }
+  }
 });

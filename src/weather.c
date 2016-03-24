@@ -29,7 +29,7 @@ void update_weather() {
   app_message_outbox_begin(&iter);
 
   // Add a key-value pair
-  dict_write_uint8(iter, 0, 0);
+  dict_write_uint8(iter, PERSIST_W_CELC, persist_exists(PERSIST_W_CELC) ? (int)persist_read_bool(PERSIST_W_CELC) : 1);
   // Send the message!
   app_message_outbox_send();
   APP_LOG(APP_LOG_LEVEL_INFO, "Requested new weather info");
