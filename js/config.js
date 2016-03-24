@@ -31,7 +31,7 @@ $().ready(function(){
       if($('#' + item)[0]) {
         if(typeof(localStorage[item]) == 'boolean' ||
             (localStorage[item] === 'true' || localStorage[item] === 'false')) {
-          $('#' + item).checked = localStorage[item];
+          $('#' + item).checked = parse(localStorage[item]);
         }
         $('#' + item)[0].value = localStorage[item];
         if(item.indexOf('color') != -1) {
