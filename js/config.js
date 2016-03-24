@@ -30,7 +30,7 @@ $().ready(function(){
       if($('#' + item)[0]) {
         $('#' + item)[0].value = localStorage[item];
         if(item.indexOf('color') != -1) {
-          $('#' + item).parent().find('.item-styled-color .value').css("background", localStorage[item]);
+          $('#' + item).parent().find('.item-styled-color .value').css("background-color", localStorage[item]);
         }
       }
     }
