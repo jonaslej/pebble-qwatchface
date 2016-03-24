@@ -52,7 +52,7 @@ void update_icons(bool battery_charging, int battery_level, bool bt_connected) {
   snprintf(s_bt_icon, sizeof(s_bt_icon), "%s", bt_connected ? "\ue900" : "\ue901");
 
   // Combine icons
-  snprintf(s_iconbuffer, sizeof(s_iconbuffer), "%s   %s", s_batt_icon, s_bt_icon);
+  snprintf(s_iconbuffer, sizeof(s_iconbuffer), "%s    %s", s_batt_icon, s_bt_icon);
   // Update text layer
   text_layer_set_text(s_icon_layer, s_iconbuffer);
 }
@@ -118,6 +118,8 @@ void load_fonts() {
 
 void create_text_layers(Window *window) {
   load_colors();
+  // Already set the color of the background window to prevent it "flashing"
+  window_set_background_color(window, bgcolor);
   // Get information about the Window
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);

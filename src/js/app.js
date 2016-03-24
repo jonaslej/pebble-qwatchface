@@ -107,12 +107,12 @@ Pebble.addEventListener('webviewclosed', function(e) {
   // Decode the user's preferences
   var configData = JSON.parse(decodeURIComponent(e.response));
   var dict = {
-    "KEY_BG_COLOR": configData.bgcolor,
-    "KEY_TM_COLOR": configData.tmcolor,
-    "KEY_DT_COLOR": configData.dtcolor,
-    "KEY_WD_COLOR": configData.wdcolor,
-    "KEY_WC_COLOR": configData.wccolor,
-    "KEY_TP_COLOR": configData.tpcolor
+    "KEY_BG_COLOR": parseInt(configData.bgcolor, 16),
+    "KEY_TM_COLOR": parseInt(configData.tmcolor, 16),
+    "KEY_DT_COLOR": parseInt(configData.dtcolor, 16),
+    "KEY_WD_COLOR": parseInt(configData.wdcolor, 16),
+    "KEY_WC_COLOR": parseInt(configData.wccolor, 16),
+    "KEY_TP_COLOR": parseInt(configData.tpcolor, 16)
   };
   Pebble.sendAppMessage(dict, function() {
     console.log('Config data sent successfully!');
