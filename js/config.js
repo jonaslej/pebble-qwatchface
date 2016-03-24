@@ -14,6 +14,7 @@ $().ready(function(){
       'wdcolor' : $('#wdcolor').val(),
       'wccolor' : $('#wccolor').val(),
       'tpcolor' : $('#tpcolor').val(),
+      'degcelc' : $('#degcelc')[0].checked,
     };
 
     for(item in config) {
@@ -28,6 +29,10 @@ $().ready(function(){
   var loadConfig = function() {
     for(item in localStorage) {
       if($('#' + item)[0]) {
+        if(typeof(localStorage[item]) == 'boolean' ||
+            (localStorage[item] === 'true' || localStorage[item] === 'false')) {
+          $('#' + item).checked = localStorage[item];
+        }
         $('#' + item)[0].value = localStorage[item];
         if(item.indexOf('color') != -1) {
           $('#' + item).parent().find('.item-styled-color .value').css("background-color", localStorage[item]);
