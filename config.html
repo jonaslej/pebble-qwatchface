@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <title>Q-Watchface Configuration</title>
   <link rel='stylesheet' type='text/css' href='css/slate.min.css'>
-  <script src='js/slate.min.js'></script>
-  <script src='js/config.js'></script>
+  <style type="text/css">
+    .hidden{display: none}
+    </style>
 </head>
 <body>
   <div class="item-container">
@@ -57,5 +58,12 @@
       <input type="button" class="item-button" value="SAVE" id="submit"/>
     </div>
   </div>
+  <div class="item-container hidden" id="debug">
+    <div class="item-container-content">
+      <div class="item" id="debug-content">debugging...<br /></div>
+    </div>
+  </div>
+  <script src='js/slate.min.js'></script>
+  <script src='js/config.js'></script>
 </body>
 </html>

@@ -1,11 +1,11 @@
-$().ready(function(){
+(function($) {
   $('#submit').click(function() {
     var return_to = getQueryParam('return_to', 'pebblejs://close#');
     // Encode and send the data when the page closes
     document.location = return_to + encodeURIComponent(getConfig());
   });
 
-  var getConfig = function() {
+  function getConfig() {
     // get colors
     var config = {
       'bgcolor' : $('#bgcolor').val(),
@@ -26,17 +26,26 @@ $().ready(function(){
     return JSON.stringify(config);
   }
 
-  var loadConfig = function() {
+  function loadConfig() {
     console.log("loading config... " + JSON.stringify(localStorage));
+    var debug = parseInt(getQueryParam('debug', 0));
+    if(debug) {
+      $('#debug').removeClass('hidden');
+    }
+    $('#debug-content').append('Loading localStorage<br />');
     for(item in localStorage) {
+      $('#debug-content').append(item + ':' + localStorage[item] + ' ' + typeof(localStorage[item]) + ' ' + '<br />');
       if($('#' + item)[0]) {
         if(typeof(localStorage[item]) == 'boolean' ||
             (localStorage[item] === 'true' || localStorage[item] === 'false')) {
-          $('#' + item).checked = $.parse(localStorage[item]);
-        }
-        $('#' + item)[0].value = localStorage[item];
-        if(item.indexOf('color') != -1) {
-          $('#' + item).parent().find('.item-styled-color .value').css("background-color", localStorage[item]);
+          $('#debug-content').append('#(' + item + ').checked = ' + $('#' + item)[0].checked + '<br />');
+          $('#' + item)[0].checked = (localStorage[item] === 'true');
+          $('#debug-content').append('#(' + item + ').checked = ' + $('#' + item)[0].checked + '<br />');
+        } else {
+          $('#' + item)[0].value = localStorage[item];
+          if(item.indexOf('color') != -1) {
+            $('#' + item).parent().find('.item-styled-color .value').css("background-color", localStorage[item]);
+          }
         }
       }
     }
@@ -56,4 +65,4 @@ $().ready(function(){
   }
 
   loadConfig();
-});
+}(Zepto));
