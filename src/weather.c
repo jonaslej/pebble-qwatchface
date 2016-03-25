@@ -56,7 +56,7 @@ void store_weather_values(int temperature, int conditions) {
 void show_weather_values(bool js_ready) {
   int temperature, conditions;
   // Check if weathervalues have been stored and how old they are
-  if(persist_exists(PERSIST_W_UPDATE) && persist_read_int(PERSIST_W_UPDATE) > (time(NULL) - 3600)) {
+  if(persist_exists(PERSIST_W_UPDATE) && persist_read_int(PERSIST_W_UPDATE) > (time(NULL) - 600)) {
     temperature = (persist_exists(PERSIST_W_TEMP) ? persist_read_int(PERSIST_W_TEMP) : 0);
     conditions = (persist_exists(PERSIST_W_COND) ? persist_read_int(PERSIST_W_COND) : 0);
     APP_LOG(APP_LOG_LEVEL_INFO, "Loaded weather info from storage. %d", (int)time(NULL));

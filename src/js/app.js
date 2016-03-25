@@ -1,4 +1,5 @@
 var myAPIKey = 'd943030e34ee1cd30443912f3cb365a4';
+var debug = 0;
 
 var xhrRequest = function (url, type, callback) {
   var xhr = new XMLHttpRequest();
@@ -108,7 +109,7 @@ Pebble.addEventListener('appmessage',
 );
 
 Pebble.addEventListener('showConfiguration', function() {
-  var url = 'http://jonaslej.github.io/pebble-qwatchface/config.html';
+  var url = 'http://jonaslej.github.io/pebble-qwatchface/config.html' + (debug ? 'debug=1' : '');
   Pebble.openURL(url);
 });
 
